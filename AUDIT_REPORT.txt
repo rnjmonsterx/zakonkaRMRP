@@ -1,0 +1,16 @@
+DATA AUDIT / PARSER REPAIR
+
+Fixed:
+- Article parser now supports ordinary decimal articles (37.1), hyphenated articles (65-1) and their parts (65-1.1).
+- Multi-link Markdown headings are parsed by visible text, so headings like Article 6.4 + separate linked title are preserved correctly.
+- Markdown heading markers (###/####/etc.) are removed from article bodies at render time; they are not shown to the user.
+- Reference parser resolves hyphenated numbers such as 65-1.
+- Database article-number resolver uses the same numbering grammar.
+- Source metadata 01..30 remains aligned with data/laws after the earlier audit.
+- Duplicate article number in 17.md is retained as a source-level peculiarity; it is not silently rewritten.
+
+Current parsed corpus: 30 documents / 1233 articles.
+Expected local source count increased from 1227 to 1233 because six previously missed hyphenated article headings are now correctly parsed.
+
+Known source availability:
+- The separate "Федеральный закон «О коммерческой деятельности»" source file is not present in data/laws in the current corpus; no placeholder was created.
