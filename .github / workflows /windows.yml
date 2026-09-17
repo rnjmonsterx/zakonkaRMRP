@@ -1,0 +1,37 @@
+name: Windows build and smoke test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        shell: cmd
+        run: python -m pip install -r requirements.txt
+      - name: Source smoke test
+        shell: cmd
+        run: python windows_smoke_test.py
+      - name: Build EXE
+        shell: cmd
+        run: build_exe.bat
+      - name: Frozen EXE smoke test
+        shell: cmd
+        run: verify_exe.bat
+      - name: Upload test result
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-smoke-result
+          path: windows_smoke_result.json
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: LegalDesk-windows
+          path: dist/LegalDesk.exe
